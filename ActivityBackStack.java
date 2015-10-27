@@ -3,6 +3,9 @@ package dependencies.activities;
 
 import javafx.scene.Node;
 
+/**
+ *
+ */
 public abstract class ActivityBackStack extends ActivityTransition {
 
     Record head, tail;
@@ -26,11 +29,12 @@ public abstract class ActivityBackStack extends ActivityTransition {
     }
 
     private void doBackActivity() {
+        tail.activity.onDestroy();
         if (!tail.equals(head)) {
             tail = tail.prev;
         }
         numRecord--;
-
+        tail.activity.onResume();
     }
 
     private void addRecord(Record record) {

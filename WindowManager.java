@@ -22,5 +22,8 @@ public abstract class WindowManager extends ActivityBackStack {
         windowPane.add(content);
     }
 
-
+    @Override
+    public Node getDecorView() {
+       return windowPane.get(windowPane.size()-1);
+    }
 }

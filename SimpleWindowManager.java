@@ -16,10 +16,14 @@ public class SimpleWindowManager extends WindowManager {
     @Override
     public void add(Activity activity) {
         super.add(activity);
-        tail.content=windowPane.get(windowPane.size()-1);
+        activity.onStart();
+        tail.content=getDecorView();
         if(tail!=head){
+            tail.prev.activity.onPause();
             windowPane.remove(tail.prev.content);
+            tail.prev.activity.onStop();
         }
+        activity.onResume();
     }
 
     @Override
@@ -32,10 +36,13 @@ public class SimpleWindowManager extends WindowManager {
 
     @Override
     public ActivityTransition back() {
+        tail.activity.onPause();
         if(tail.prev!=null){
             windowPane.remove(tail.content);
             windowPane.add(tail.prev.content);
+            tail.prev.activity.onStart();
         }
+        tail.activity.onStop();
         checkChangeSize(((Region) tail.prev.content).getPrefWidth(), ((Region) tail.prev.content).getPrefHeight());
         return super.back();
 

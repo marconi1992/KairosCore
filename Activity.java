@@ -7,13 +7,44 @@ import java.net.URL;
 
 public class Activity extends ContextWrapper {
 
+    static protected final int INITIALIZING = 0;
+    static protected final int CREATED = 1;
+    static protected final int STOPPED = 2;
+    static protected final int STARTED = 3;
+    static protected final int RESUMED = 4;
 
-    protected void onCreate() {
+    protected FragmentManager fragmentManager;
+
+    protected int state = INITIALIZING;
+
+    public void onCreate() {
+        fragmentManager = new FragmentManagerImpl(this);
+        state = CREATED;
+    }
+
+    protected void onStart() {
+        state = STARTED;
+    }
+
+    protected void onResume() {
+        state = RESUMED;
 
     }
 
+    protected void onPause() {
+
+    }
+
+    protected void onStop() {
+        state = STOPPED;
+
+    }
+
+    protected void onDestroy() {
+    }
+
     public void setContentView(URL content) {
-        FXMLLoader loader=new FXMLLoader(content);
+        FXMLLoader loader = new FXMLLoader(content);
         loader.setController(this);
         try {
             this.context.window.setContentView(loader.load());
@@ -22,5 +53,7 @@ public class Activity extends ContextWrapper {
         }
     }
 
-
+    public FragmentManager getFragmentManager() {
+        return fragmentManager;
+    }
 }
