@@ -10,6 +10,7 @@ public abstract class FragmentTransaction {
     public abstract FragmentTransaction replace(String containerId,Fragment f);
     public abstract FragmentTransaction replace(String containerId,Fragment f,String tag);
     public abstract FragmentTransaction remove(Fragment f);
+    public abstract FragmentTransaction addToBackStack(String name);
     public abstract int commit();
 }
 

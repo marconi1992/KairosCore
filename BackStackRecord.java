@@ -10,11 +10,12 @@ public class BackStackRecord extends FragmentTransaction {
 
     static final int ATTACH = 7;
     static final int ADD = 1;
-    static final int REMOVE=2;
+    static final int REMOVE = 2;
 
     final FragmentManagerImpl fm;
     Op head, tail;
     int numOp;
+    boolean backStack = false;
 
     public BackStackRecord(FragmentManagerImpl fm) {
         this.fm = fm;
@@ -49,18 +50,18 @@ public class BackStackRecord extends FragmentTransaction {
 
     @Override
     public FragmentTransaction replace(String containerId, Fragment f, String tag) {
-        for(Fragment fragment : fm.added){
-            if(tag!=null){
-                if(fragment.tag.equals(tag) && fragment.containerId.equals(containerId)){
+        for (Fragment fragment : fm.added) {
+            if (tag != null) {
+                if (fragment.tag.equals(tag) && fragment.containerId.equals(containerId)) {
                     remove(fragment);
                 }
-            }else{
-                if(fragment.containerId.equals(containerId)){
+            } else {
+                if (fragment.containerId.equals(containerId)) {
                     remove(fragment);
                 }
             }
         }
-        add(containerId,f);
+        add(containerId, f);
         return null;
     }
 
@@ -71,31 +72,56 @@ public class BackStackRecord extends FragmentTransaction {
     }
 
     @Override
+    public FragmentTransaction addToBackStack(String name) {
+        backStack = true;
+        fm.setBackStack(this);
+        return this;
+    }
+
+    @Override
     public int commit() {
 
         do {
-            head.prev=null;
-            Pane nodeHost = (Pane) fm.activityHost.context.window.getDecorView().lookup("#" + head.fragment.containerId);
-            if (head.cmd == ADD) {
-                nodeHost.getChildren().add(head.fragment);
-                FXMLLoader loader = new FXMLLoader();
-                loader.setRoot(head.fragment);
-                loader.setController(head.fragment);
-                head.fragment.onCreateView(loader);
-                head.cmd=ATTACH;
-                fm.added.add(head.fragment);
-                head.fragment.onResume();
-            }else if(head.cmd==REMOVE){
-                head.fragment.onPause();
-                head.fragment.onStop();
-                head.fragment.onDestroyView();
-                nodeHost.getChildren().remove(head.fragment);
-                head.fragment.onDestroy();
-                fm.added.add(head.fragment);
-                head.fragment.onDetach();
-            }
-        } while ( (head=head.next)!=null);
+            transaction(head);
+            numOp--;
+        } while ((head = head.next) != null);
+        backStack = false;
         return 0;
+    }
+
+    private void transaction(Op op) {
+        Pane nodeHost = (Pane) fm.activityHost.context.window.getDecorView().lookup("#" + op.fragment.containerId);
+        if (op.cmd == ADD) {
+            nodeHost.getChildren().add(op.fragment);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setRoot(op.fragment);
+            loader.setController(op.fragment);
+            op.fragment.onCreateView(loader);
+            op.cmd = ATTACH;
+            fm.added.add(op.fragment);
+            op.fragment.onResume();
+            if (backStack) {
+                op.cmd = REMOVE;
+            }
+
+        } else if (op.cmd == REMOVE) {
+            op.fragment.onPause();
+            op.fragment.onStop();
+            op.fragment.onDestroyView();
+            nodeHost.getChildren().remove(op.fragment);
+            op.fragment.onDestroy();
+            fm.added.remove(op.fragment);
+            op.fragment.onDetach();
+            if (backStack) {
+                op.cmd = ADD;
+            }
+        }
+    }
+
+    protected void backStack() {
+        do {
+            transaction(tail);
+        } while ((tail = tail.prev) != null);
     }
 
 
@@ -129,7 +155,6 @@ public class BackStackRecord extends FragmentTransaction {
 
 
     static final class Op {
-
         Op next;
         Op prev;
         int cmd;

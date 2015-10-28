@@ -17,6 +17,7 @@ final class FragmentManagerImpl extends FragmentManager{
     int currentState=Fragment.INITIALIZING;
     protected final Activity activityHost;
     protected ArrayList<Fragment> added;
+    protected BackStackRecord backStack;
 
     public FragmentManagerImpl(Activity activityHost){
         this.activityHost=activityHost;
@@ -41,6 +42,7 @@ final class FragmentManagerImpl extends FragmentManager{
         return null;
     }
 
-
-
+    public void setBackStack(BackStackRecord backStack) {
+        this.backStack = backStack;
+    }
 }

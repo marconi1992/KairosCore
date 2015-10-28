@@ -13,7 +13,7 @@ public class Activity extends ContextWrapper {
     static protected final int STARTED = 3;
     static protected final int RESUMED = 4;
 
-    protected FragmentManager fragmentManager;
+    protected FragmentManagerImpl fragmentManager;
 
     protected int state = INITIALIZING;
 

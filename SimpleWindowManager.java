@@ -36,6 +36,11 @@ public class SimpleWindowManager extends WindowManager {
 
     @Override
     public ActivityTransition back() {
+        if(tail.activity.fragmentManager.backStack!=null){
+            tail.activity.fragmentManager.backStack.backStack();
+            tail.activity.fragmentManager.backStack=null;
+            return null;
+        }
         tail.activity.onPause();
         if(tail.prev!=null){
             windowPane.remove(tail.content);
