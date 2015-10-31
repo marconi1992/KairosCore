@@ -28,7 +28,11 @@ public class Activity extends ContextWrapper {
 
     protected void onResume() {
         state = RESUMED;
-
+        for(Fragment fragment:fragmentManager.added){
+            if(fragment.state<Fragment.RESUMED) {
+                fragment.onResume();
+            }
+        }
     }
 
     protected void onPause() {

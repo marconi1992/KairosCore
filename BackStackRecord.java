@@ -142,7 +142,7 @@ public class BackStackRecord extends FragmentTransaction {
         if (tag != null) {
             f.tag = tag;
         } else {
-            f.tag = Fragment.class.getSimpleName();
+            f.tag = f.getClass().getSimpleName();
         }
         if (!containerId.equals("")) {
             f.fragmentId = f.containerId = containerId;

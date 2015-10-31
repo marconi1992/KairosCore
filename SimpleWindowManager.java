@@ -39,6 +39,7 @@ public class SimpleWindowManager extends WindowManager {
         if(tail.activity.fragmentManager.backStack!=null){
             tail.activity.fragmentManager.backStack.backStack();
             tail.activity.fragmentManager.backStack=null;
+            tail.activity.onResume();
             return null;
         }
         tail.activity.onPause();
