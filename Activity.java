@@ -14,6 +14,9 @@ public class Activity extends ContextWrapper {
     static protected final int RESUMED = 4;
 
     protected FragmentManagerImpl fragmentManager;
+    protected ActionBar actionBar;
+    private boolean homeAsUp=false;
+
 
     protected int state = INITIALIZING;
 
@@ -57,7 +60,29 @@ public class Activity extends ContextWrapper {
         }
     }
 
+    public void setActionBar(ActionBar actionBar) {
+        this.actionBar = actionBar;
+     }
+
+    public ActionBar getActionBar() {
+        return actionBar;
+    }
+
     public FragmentManager getFragmentManager() {
         return fragmentManager;
+    }
+
+    protected void setHomeAsUp(boolean homeAsUp) {
+        this.homeAsUp = homeAsUp;
+        if(homeAsUp){
+            actionBar.showHomeAsUp();
+            actionBar.setOnHomeButtonAction(evt->{
+                onBackPressed();
+            });
+        }
+    }
+
+    protected boolean isHomeAsUp() {
+        return homeAsUp;
     }
 }

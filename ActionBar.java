@@ -1,11 +1,15 @@
 package dependencies.activities;
 
-import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
- * Created by Felipe on 25/10/2015.
+ * Created by Felipe on 02/11/2015.
  */
 public interface ActionBar {
-    public Button menu = null;
-    public String title="";
+    public void setDisplayHomeAsUpEnabled(boolean showHomeAsUp);
+    public void setDisplayShowHomeEnabled(boolean showHome);
+    public void showHomeAsUp();
+    public boolean isDisplayHomeAsUpEnabled();
+    public void setOnHomeButtonAction(EventHandler<ActionEvent> handler);
 }

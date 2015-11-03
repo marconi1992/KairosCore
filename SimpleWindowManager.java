@@ -17,6 +17,11 @@ public class SimpleWindowManager extends WindowManager {
     public void add(Activity activity) {
         super.add(activity);
         activity.onStart();
+        if(!tail.equals(head)){
+            if (activity.actionBar!=null){
+                activity.setHomeAsUp(true);
+            }
+        }
         tail.content=getDecorView();
         if(tail!=head){
             tail.prev.activity.onPause();

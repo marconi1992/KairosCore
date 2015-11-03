@@ -8,6 +8,6 @@ public abstract class Context {
     protected ActivityTransition window;
 
     public abstract void startActivity(Class<?> activity);
-
+    public abstract void startActivity(Intent intent);
     public abstract void onBackPressed();
 }
