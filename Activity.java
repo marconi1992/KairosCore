@@ -74,7 +74,7 @@ public class Activity extends ContextWrapper {
 
     protected void setHomeAsUp(boolean homeAsUp) {
         this.homeAsUp = homeAsUp;
-        if(homeAsUp){
+        if(homeAsUp && actionBar.isDisplayHomeAsUpEnabled()){
             actionBar.showHomeAsUp();
             actionBar.setOnHomeButtonAction(evt->{
                 onBackPressed();
