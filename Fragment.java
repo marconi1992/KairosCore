@@ -73,6 +73,7 @@ public abstract class Fragment extends AnchorPane {
     public void onPause(){
     }
     public void onStop() {
+        this.state=STOPPED;
     }
 
     public void onDestroy(){

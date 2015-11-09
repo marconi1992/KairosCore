@@ -43,6 +43,11 @@ public class Activity extends ContextWrapper {
     }
 
     protected void onStop() {
+        for(Fragment fragment:fragmentManager.added){
+            if(fragment.state>Fragment.STOPPED) {
+                fragment.onStop();
+            }
+        }
         state = STOPPED;
 
     }
