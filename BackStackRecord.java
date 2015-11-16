@@ -122,6 +122,7 @@ public class BackStackRecord extends FragmentTransaction {
         do {
             transaction(tail);
         } while ((tail = tail.prev) != null);
+
     }
 
 
