@@ -1,4 +1,4 @@
-package dependencies.activities;
+package kairos.core;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;

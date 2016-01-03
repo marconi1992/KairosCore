@@ -1,4 +1,4 @@
-package dependencies.activities;
+package kairos.core;
 
 public abstract class ActivityTransition implements WindowBehavior{
 

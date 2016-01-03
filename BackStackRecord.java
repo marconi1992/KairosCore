@@ -1,4 +1,4 @@
-package dependencies.activities;
+package kairos.core;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;

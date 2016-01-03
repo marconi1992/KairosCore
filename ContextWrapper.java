@@ -1,4 +1,4 @@
-package dependencies.activities;
+package kairos.core;
 
 
 public class ContextWrapper extends Context {
@@ -6,7 +6,7 @@ public class ContextWrapper extends Context {
     protected Context context;
     protected Intent intent;
     @Override
-    public void startActivity(Class<?> activity) {
+    public void startActivity(Class<? extends Activity> activity) {
         context.startActivity(activity);
     }
 

@@ -1,4 +1,4 @@
-package dependencies.activities;
+package kairos.core;
 
 
 import java.util.ArrayList;
